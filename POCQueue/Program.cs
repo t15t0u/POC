@@ -7,6 +7,8 @@ using Microsoft.Azure; // Namespace for CloudConfigurationManager
 using Microsoft.WindowsAzure.Storage; // Namespace for CloudStorageAccount
 using Microsoft.WindowsAzure.Storage.Queue; // Namespace for Queue storage types
 using System.Configuration;
+using System.Xml;
+
 
 namespace POCQueue
 {
@@ -22,6 +24,15 @@ namespace POCQueue
             Console.WriteLine("Reading message...");
             CloudQueueMessage RetrievedMessage = queue.GetMessage();
             Console.WriteLine("Message is : {0}", RetrievedMessage.AsString);
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(RetrievedMessage.AsString);
+            XmlNode parent = doc.FirstChild;
+            XmlNode text = parent.FirstChild;
+            Console.WriteLine("{0} : {1}\n", text.Name, text.InnerText);
+            XmlNode color = text.NextSibling;
+            Console.WriteLine("{0} : {1}\n", color.Name, color.InnerText);
+            XmlNode font = color.NextSibling;
+            Console.WriteLine("{0} : {1}", font.Name, font.InnerText);
             queue.DeleteMessage(RetrievedMessage);
             Console.ReadLine();
 
