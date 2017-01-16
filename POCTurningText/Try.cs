@@ -54,8 +54,10 @@ namespace POCTurningText
             double angle = (rotationAngle / 180) * Math.PI;
            
             graphics.TranslateTransform(form.Width / 2 - 150, form.Height / 2 - 150);
+            graphics.ScaleTransform(1, -1);
             graphics.RotateTransform((float)rotationAngle);
             graphics.DrawString(text, form.Font, textBrush, x, y);
+            
             graphics.ResetTransform();
 
 
